@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js CDN Setup</title>
+    <!-- Load Three.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.142.0/build/three.min.js"></script>
+</head>
+<body>
+    <!-- This will display our 3D scene -->
+    <script>
+        // 1. Create scene
+        const scene = new THREE.Scene();
+
+        // 2. Create camera
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        // 3. Create renderer
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight); // Set the size of the canvas
+        document.body.appendChild(renderer.domElement); // Append canvas to body
+
+        // 4. Create geometry (a simple cube)
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Green material
+        const cube = new THREE.Mesh(geometry, material); // Create cube mesh
+        scene.add(cube); // Add cube to the scene
+
+        // 5. Set camera position
+        camera.position.z = 5;
+
+        // 6. Animation loop
+        function animate() {
+            requestAnimationFrame(animate); // Request next frame
+            cube.rotation.x += 0.01; // Rotate cube
+            cube.rotation.y += 0.01;
+            renderer.render(scene, camera); // Render scene from camera's perspective
+        }
+        animate(); // Start the animation loop
+
+        // 7. Handle window resizing
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight); // Update canvas size
+            camera.aspect = window.innerWidth / window.innerHeight; // Update camera aspect ratio
+            camera.updateProjectionMatrix(); // Update camera projection
+        });
+    </script>
+</body>
+</html>
